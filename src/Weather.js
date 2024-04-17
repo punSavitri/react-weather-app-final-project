@@ -5,11 +5,36 @@ import "./Weather.css";
 export default function Weather() {
   return (
     <div className="Weather">
-      <h1 className='text-warning' >Hello React Weather App</h1>
-      <footer>
-        <p>This project was coded by <a href="https://github.com/punSavitri" title="GitHub Repo link"> Savitri Pun </a> and <a href="https://github.com/punSavitri/react-weather-app-final-project.git" title="Link to GitHub project repo"> is a open-sourced </a> and <a href="https://react-forecast-weather-app2024.netlify.app/" title="Netlify link to the project"> hosted on Netlify</a>
-        </p>
-      </footer>
+      <form>
+        <div className="row">
+          <div className="col-9">
+            <input type="search" placeholder="Enter a city name...." autoFocus="on" className="form-control" required />
+          </div>
+          <div className="col-3">
+            <input type="submit" value="Search" className="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+      <h1>London</h1>
+      <ul>
+        <li>Thursday 12:00</li>
+        <li>Sunny day</li>
+      </ul>
+      <div className="row">
+        <div className="col-6">
+          <img src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png" alt="Sunny day" />
+          20°C
+        </div>
+        <div className="col-6">
+          <ul>
+            <li>Participation:15%</li>
+            <li>Humidity:72%</li>
+            <li>Wind:15Kmh</li>
+          </ul>
+        </div>
+      </div>
+      
     </div>
+
   )
 }
