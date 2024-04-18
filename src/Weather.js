@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
-import FormattedDate from "./FormattedDate";
+import WeatherInfo from "./WeatherInfo";
 import "./Weather.css";
 
 
 export default function Weather(props) {
   //assign state variables
-
   const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
 
   function showWeatherData(response) {
     console.log(response.data);
@@ -23,69 +23,59 @@ export default function Weather(props) {
       date: new Date(response.data.dt * 1000)
     });
   }
+  //this function search the city
+  function search() {
+    //make an api call
+    let apiKey = "5b565b9df0c73c61b9800cce1a0e8af7";
+    let units = "metric";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
+    console.log(apiUrl);
+    //request axios to get data from api 
+    axios.get(apiUrl).then(showWeatherData);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+  function handleChangeCity(event) {
+    //consle.log(event.target.value);
+    setCity(event.target.value);
+  }
 
   if (weatherData.ready) {
     return (
       <div className="Weather">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9">
-              <input type="search" placeholder="Enter a city name...." autoFocus="on" className="form-control" required />
+              <input type="search" placeholder="Enter a city name...." autoFocus="on" className="form-control" onChange={handleChangeCity} required />
             </div>
             <div className="col-3">
               <input type="submit" value="Search" className="btn btn-primary" />
             </div>
           </div>
         </form>
-        <h1>{weatherData.city}</h1>
-        <ul>
-          <li><FormattedDate date={weatherData.date} /></li>
-          <li className="text-capitalize">{weatherData.description}</li>
-        </ul>
-        <div className="row mt-3">
-          <div className="col-6">
-            <div className="d-flex">
-              <div>
-                <img src={weatherData.iconUrl} alt={weatherData.description} />
-              </div>
-              <div>
-                <span className="temperature">{weatherData.temperature}</span>
-                <span className="unit">°C</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-6">
-            <ul>
-              <li>Humidity:{weatherData.humidity}%</li>
-              <li>Wind:{weatherData.wind}km/h</li>
-            </ul>
-          </div>
-        </div>
+        <WeatherInfo data={weatherData} />
       </div >
     )
   } else {
+    //search the city function
+    search();
     //if it is not ready then 
-    //make an api call
-    let apiKey = "5b565b9df0c73c61b9800cce1a0e8af7";
-    let units = "metric";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&units=${units}&appid=${apiKey}`;
-    console.log(apiUrl);
-    //request axios to get data from api 
-    axios.get(apiUrl).then(showWeatherData);
-    return (<RotatingLines
-      visible={true}
-      height="96"
-      width="96"
-      color="grey"
-      strokeWidth="5"
-      animationDuration="0.75"
-      ariaLabel="rotating-lines-loading"
-
-      wrapperClass=""
-
-
-    />)
-
+    //show the react loader 
+    return (
+      <div className="text-center mt-3">
+        <RotatingLines
+          visible={true}
+          height="96"
+          width="96"
+          color="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          wrapperClass=""
+        />
+      </div>
+    )
   }
 }
