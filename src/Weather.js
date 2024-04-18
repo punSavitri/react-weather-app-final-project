@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { RotatingLines } from "react-loader-spinner";
 import "./Weather.css";
 
 
-export default function Weather() {
+export default function Weather(props) {
   //assign state variables
 
   const [weatherData, setWeatherData] = useState({ ready: false });
@@ -19,9 +20,7 @@ export default function Weather() {
       description: response.data.weather[0].description,
       iconUrl: "https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png",
       date: "Thursday 12:00"
-
     });
-
   }
 
   if (weatherData.ready) {
@@ -65,14 +64,27 @@ export default function Weather() {
       </div >
     )
   } else {
+    //if it is not ready then 
     //make an api call
     let apiKey = "5b565b9df0c73c61b9800cce1a0e8af7";
     let units = "metric";
-    let city = "London";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl);
     //request axios to get data from api 
     axios.get(apiUrl).then(showWeatherData);
-    return "Loading....";
+    return (<RotatingLines
+      visible={true}
+      height="96"
+      width="96"
+      color="grey"
+      strokeWidth="5"
+      animationDuration="0.75"
+      ariaLabel="rotating-lines-loading"
+
+      wrapperClass=""
+
+
+    />)
+
   }
 }
