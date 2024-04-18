@@ -1,3 +1,16 @@
 .Weather {
   border: 1px solid #dadde1;
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.Weather h1 {
+  color: rgb(32, 33, 36);
+  display: block;
+  font-family: "Google Sans", arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  height: 26px;
+  line-height: 26px;
 }
