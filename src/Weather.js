@@ -67,7 +67,7 @@ export default function Weather(props) {
     //if it is not ready then 
     //show the react loader 
     return (
-      <div className="text-center mt-3">
+      <div className="text-center mt-3 pt-5">
         <RotatingLines
           visible={true}
           height="96"
