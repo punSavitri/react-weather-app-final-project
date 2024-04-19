@@ -3,6 +3,7 @@ import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 import WeatherInfo from "./WeatherInfo";
 import "./Weather.css";
+import WeatherForecast from "./WeatherForecast";
 
 
 export default function Weather(props) {
@@ -56,6 +57,7 @@ export default function Weather(props) {
           </div>
         </form>
         <WeatherInfo data={weatherData} />
+        <WeatherForecast />
       </div >
     )
   } else {
