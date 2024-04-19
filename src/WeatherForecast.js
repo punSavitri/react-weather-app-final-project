@@ -1,36 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import WeatherIcon from "./WeatherIcon";
 import "./WeatherForecast.css";
 import axios from "axios";
+import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast(props) {
   //console.log(props);
+  const [forecastData, setForecastData] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   function handleResponse(response) {
-    console.log(response.data);
+    //console.log(response.data);
+    setForecastData(response.data.daily);
+    setLoaded(true);
   }
 
-  let apiKey = "4c3a38t82d64bfo4330f17ff02bfbd97";
-  let longitutde = props.coordinates.lon;
-  let latitude = props.coordinates.lat;
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${longitutde}&lat=${latitude}&key=${apiKey}`;
-  //console.log(apiUrl);
-  axios.get(apiUrl).then(handleResponse);
+  if (loaded) {
+    //console.log(forecastData);
 
-
-
-  return (
-    <div className="WeatherForecast">
-      <div className="row mt-4">
-        <div className="col">
-          <div className="WeatherForecast-day">Fri</div>
-          <WeatherIcon code="01d" size={36} />
-          <div>
-            <span className="WeatherForecast-temperautre-max">15°</span>
-            <span className="WeatherForecast-temperature-min">11°</span>
-          </div>
+    return (
+      <div className="WeatherForecast">
+        <div className="row mt-4">
+          {/* loop to display the 5 days weather forecast */}
+          {forecastData.map(function (dailyForecast, index) {
+            if (index < 5) {
+              return (
+                <div className="col" key={index}>
+                  <WeatherForecastDay data={dailyForecast} />
+                </div>
+              )
+            }
+          })
+          }
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    let apiKey = "69ce73a5a984ee8acd2f5cb48766d6fe";
+    let latitude = props.coordinates.lat;
+    let longitutde = props.coordinates.lon;
+    let apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitutde}&appid=${apiKey}&units=metric`;
+    //console.log(apiUrl);
+    axios.get(apiUrl).then(handleResponse);
+    return null;
+  }
 }
