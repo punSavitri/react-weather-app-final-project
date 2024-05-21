@@ -33,7 +33,7 @@ export default function WeatherForecast(props) {
     //console.log(forecastData);
     return (
       <div className="WeatherForecast">
-        <div className="row mt-4">
+        <div className="row mt-5">
           {/* loop to display the 5 days weather forecast */}
           {forecastData.map(function (dailyForecast, index) {
             if (index < 5) {

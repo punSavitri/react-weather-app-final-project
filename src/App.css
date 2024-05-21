@@ -14,3 +14,12 @@
   font-size: 15px;
   text-align: center;
 }
+@media (max-width: 768px) {
+  .App h2 {
+    font-size: 18px;
+  }
+  .App footer {
+    margin-bottom: 60px;
+  }
+  
+}
